@@ -28,10 +28,12 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.{js,jsx}": [
-      "eslint"
+    "*.js": [
+      "pretty-quick --staged",
+      "eslint src/ --fix",
+      "git add"
     ],
-    "*.{js,jsx,json,md}": [
+    "*.{js,json,md}": [
       "prettier --list-different"
     ]
   },
