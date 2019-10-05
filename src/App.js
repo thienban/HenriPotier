@@ -10,7 +10,7 @@ const App = () => {
     <div>
       <AppBar color="primary" position="static">
         <Toolbar>
-          <TypoGraphy variant="title" color="inherit">
+          <TypoGraphy variant="h4" color="inherit">
             Henri Potier
           </TypoGraphy>
           <NavBar />

@@ -10,13 +10,13 @@ const NavBar = () => {
     <List component="nav">
       <ListItem component="div">
         <ListItemText inset>
-          <TypoGraphy color="inherit" variant="title">
+          <TypoGraphy color="inherit" variant="h5">
             Accueil <Home />
           </TypoGraphy>
         </ListItemText>
 
         <ListItemText inset>
-          <TypoGraphy color="inherit" variant="title">
+          <TypoGraphy color="inherit" variant="h5">
             Panier <ShoppingBasket />
           </TypoGraphy>
         </ListItemText>
