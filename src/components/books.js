@@ -10,19 +10,6 @@ import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 
-// const useStyles = makeStyles({
-//   size: {
-//     width: '50%',
-//     height: '30%'
-//   },
-//   text: {
-//     maxWidth: '25em',
-//     whiteSpace: 'nowrap',
-//     overflow: 'hidden',
-//     textOverflow: 'ellipsis'
-//   }
-// });
-
 const useStyles = makeStyles({
   card: {
     maxWidth: 345,
@@ -50,6 +37,7 @@ const ListBook = ({ books }) => {
               <CardActionArea>
                 <CardMedia
                   component="img"
+                  alt="henry"
                   className={classes.media}
                   image={book.cover}
                 />

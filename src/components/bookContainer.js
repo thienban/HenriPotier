@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import ListBook from './books';
-import posts from './listToTest';
+import { inject, observer } from 'mobx-react';
 
-const BookContainer = () => {
-  //   const [book, setBook] = useState([]);
-  //   useEffect(() => {
-  //     // Fetch
-  //   });
+const BookContainer = ({store}) => {
+    useEffect(() => {
+      store.fetchBooks();
+    }, []);
 
   return (
     <div>
-      <ListBook books={posts} />
+      <ListBook books={store.books} />
     </div>
   );
 };
 
-export default BookContainer;
+export default inject('store')(observer(BookContainer));
