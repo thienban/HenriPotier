@@ -12,51 +12,61 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   card: {
-    maxWidth: 345,
+    maxWidth: 345
   },
   media: {
-    height: 140,
+    height: 140
   },
   text: {
-        maxWidth: '25em',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis'
-      }
+    maxWidth: '25em',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
+  }
 });
 
-const ListBook = ({ books }) => {
+const ListBook = ({ books, handleBuy }) => {
   const classes = useStyles();
+  const handleClick = e => {
+    handleBuy(e.currentTarget.id);
+  };
   return (
     <div style={{ marginTop: 20, padding: 30 }}>
       <Grid container spacing={5} justify="center">
         {books.map(book => {
-          return <Grid item key={book.title}>
-            <Card className={classes.card}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  alt="henry"
-                  className={classes.media}
-                  image={book.cover}
-                />
-                <CardContent>
-                  <Typography variant="subtitle2" component="h2">
-                    {book.title}
-                  </Typography>
-                  <Typography variant="body2" className={classes.text}>
-                    {book.synopsis[0]}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions>
-                <Button size="small" color="primary">
-                  BUY
-                </Button>
-                <Avatar>{book.price + ' €'}</Avatar>
-              </CardActions>
-            </Card>
-          </Grid>
+          return (
+            <Grid item key={book.isbn}>
+              <Card className={classes.card}>
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    alt="henry"
+                    className={classes.media}
+                    image={book.cover}
+                  />
+                  <CardContent>
+                    <Typography variant="subtitle2" component="h2">
+                      {book.title}
+                    </Typography>
+                    <Typography variant="body2" className={classes.text}>
+                      {book.synopsis[0]}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <Button
+                    size="small"
+                    color="primary"
+                    id={book.isbn}
+                    onClick={(e) => handleClick(e)}
+                  >
+                    ACHETER
+                  </Button>
+                  <Avatar>{book.price + ' €'}</Avatar>
+                </CardActions>
+              </Card>
+            </Grid>
+          );
         })}
       </Grid>
     </div>

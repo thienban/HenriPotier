@@ -1,9 +1,10 @@
-import { observable, flow, decorate } from 'mobx';
+import { observable, flow, decorate, action } from 'mobx';
 
 class BookStore {
   constructor() {
     this.books = [];
     this.state = 'loading';
+    this.basket = [];
 
     this.fetchBooks = flow(function*() {
       this.books = [];
@@ -17,11 +18,23 @@ class BookStore {
         this.state = 'error';
       }
     });
+
+    this.addBook = this.addBook.bind(this);
+  }
+  addBook(id) {
+    const selected = this.books.map(book => {
+      if (book.isbn === id) {
+        return book;
+      }
+    });
+    this.basket.push(selected);
   }
 }
 decorate(BookStore, {
   books: observable,
-  state: observable
+  state: observable,
+  basket: observable,
+  addBook: action
 });
 
 export default new BookStore();
