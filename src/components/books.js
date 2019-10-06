@@ -31,7 +31,6 @@ const ListBook = ({ books }) => {
     <div style={{ marginTop: 20, padding: 30 }}>
       <Grid container spacing={5} justify="center">
         {books.map(book => {
-          console.log(book.synopsis[0]);
           return <Grid item key={book.title}>
             <Card className={classes.card}>
               <CardActionArea>

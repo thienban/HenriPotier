@@ -11,7 +11,6 @@ class BookStore {
       try {
         const response = yield fetch('http://henri-potier.xebia.fr/books');
         const json = yield response.json();
-        console.log(json);
         this.state = 'done';
         this.books = json;
       } catch (error) {
