@@ -51,7 +51,7 @@ const SimpleDialog = props => {
               <ListItemAvatar>
                 <Avatar className={classes.avatar} src={book.cover} />
               </ListItemAvatar>
-              <ListItemText primary={book.title} />
+              <ListItemText primary={book.title} secondary={book.price+' €'} />
             </ListItem>
           );
         })}
