@@ -1,4 +1,21 @@
 import { observable, flow, decorate, action } from 'mobx';
+class Book {
+  constructor(obj) {
+    this.id = obj.isbn;
+    this.title = obj.title;
+    this.price = obj.price;
+    this.cover = obj.cover;
+    this.synosis = obj.synosis;
+  }
+}
+
+decorate(Book, {
+  id: observable,
+  title: observable,
+  price: observable,
+  cover: observable,
+  synosis: observable
+});
 
 class BookStore {
   constructor() {
@@ -22,12 +39,8 @@ class BookStore {
     this.addBook = this.addBook.bind(this);
   }
   addBook(id) {
-    const selected = this.books.map(book => {
-      if (book.isbn === id) {
-        return book;
-      }
-    });
-    this.basket.push(selected);
+    const selected = this.books.find(book => book.isbn === id);
+    this.basket.push(new Book(selected));
   }
 }
 decorate(BookStore, {

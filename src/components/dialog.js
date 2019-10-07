@@ -8,8 +8,9 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import Button from '@material-ui/core/Button';
 import { blue } from '@material-ui/core/colors';
-import CheckIcon from '@material-ui/icons/Check';
 import { inject, observer } from 'mobx-react';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
@@ -40,27 +41,28 @@ const SimpleDialog = props => {
     >
       <DialogTitle id="simple-dialog-title">Panier</DialogTitle>
       <List>
-        {store.basket.map(book => (
-          <ListItem
-            button
-            onClick={() => handleListItemClick(book)}
-            key={book.isbn}
-          >
-            <ListItemAvatar>
-              <Avatar className={classes.avatar}>{book.cover}</Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={book.title} />
-          </ListItem>
-        ))}
-
-        <ListItem button onClick={() => handleListItemClick('addAccount')}>
-          <ListItemAvatar>
-            <Avatar className={classes.avatar}>
-              <CheckIcon />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="CONFIRMER" />
-        </ListItem>
+        {store.basket.map(book => {
+          return (
+            <ListItem
+              button
+              onClick={() => handleListItemClick(book)}
+              key={book.id}
+            >
+              <ListItemAvatar>
+                <Avatar className={classes.avatar} src={book.cover} />
+              </ListItemAvatar>
+              <ListItemText primary={book.title} />
+            </ListItem>
+          );
+        })}
+        <DialogActions>
+          <Button onClick={handleListItemClick} color="primary">
+            Annuler
+          </Button>
+          <Button onClick={handleListItemClick} color="primary">
+            Confirmer
+          </Button>
+        </DialogActions>
       </List>
     </Dialog>
   );
