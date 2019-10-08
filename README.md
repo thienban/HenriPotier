@@ -9,4 +9,4 @@
 
 # Stack
 
-- ReactJS, Materialise UI, Storybook
+- ReactJS, Mobx, Materialise UI, Storybook
