@@ -26,13 +26,13 @@ const useStyles = makeStyles({
   }
 });
 
-const ListBook = ({ books, handleBuy, inputFilter }) => {
+const ListBook = ({ books, handleBuy, inputFilter, handleFilter }) => {
   const classes = useStyles();
   const handleClick = e => {
     handleBuy(e.currentTarget.id);
   };
   const filter = e => {
-    inputFilter= e.target.value;
+    handleFilter(e.target.value);
   };
   return (
     <div style={{ marginTop: 20, padding: 30 }}>

@@ -13,6 +13,7 @@ const BookContainer = ({ store }) => {
         books={store.filteredBook} 
         handleBuy={store.addBook} 
         inputFilter={store.filter} 
+        handleFilter={store.modifyFilter}
         />
     </div>
   );

@@ -19,7 +19,8 @@ decorate(Book, {
 
 class Order {
   constructor(price, quantity) {
-    (this.price = price), (this.quantity = quantity);
+    this.price = price;
+    this.quantity = quantity;
   }
 
   get total() {
@@ -73,12 +74,16 @@ class BookStore {
     });
 
     this.addBook = this.addBook.bind(this);
+    this.modifyFilter = this.modifyFilter.bind(this);
   }
   get filteredBook() {
     const matchesFilter = new RegExp(this.filter, 'i');
     return this.books.filter(
       book => !this.filter || matchesFilter.test(book.title)
     );
+  }
+  modifyFilter(val) {
+    this.filter = val;
   }
   addBook(id) {
     const selected = this.books.find(book => book.isbn === id);
@@ -94,6 +99,7 @@ decorate(BookStore, {
   totalOrder: observable,
   filter: observable,
   filteredBook: computed,
+  modifyFilter: action,
   addBook: action
 });
 
