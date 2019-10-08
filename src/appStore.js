@@ -1,4 +1,4 @@
-import { observable, flow, decorate, action } from 'mobx';
+import { observable, flow, decorate, action, computed } from 'mobx';
 class Book {
   constructor(obj) {
     this.id = obj.isbn;
@@ -19,18 +19,17 @@ decorate(Book, {
 
 class Order {
   constructor(price, quantity) {
-    this.price = price,
-    this.quantity = quantity
+    (this.price = price), (this.quantity = quantity);
   }
 
   get total() {
-    return this.price * this.quantity
+    return this.price * this.quantity;
   }
 }
-decorate(Order,{
+decorate(Order, {
   price: observable,
   quantity: observable
-})
+});
 
 class BookStore {
   constructor() {
@@ -39,6 +38,7 @@ class BookStore {
     this.basket = [];
     this.offers = [];
     this.totalOrder = 0;
+    this.filter = '';
 
     this.fetchBooks = flow(function*() {
       this.books = [];
@@ -74,15 +74,12 @@ class BookStore {
 
     this.addBook = this.addBook.bind(this);
   }
-
-  // get totalBasket() {
-  //   return this.basket.reduce((pre, current) => {
-  //     pre+current.price
-  //   }, 0)
-  // }
-  // get totalOffer() {
-  //   return this.offers[1].value;
-  // }
+  get filteredBook() {
+    const matchesFilter = new RegExp(this.filter, 'i');
+    return this.books.filter(
+      book => !this.filter || matchesFilter.test(book.title)
+    );
+  }
   addBook(id) {
     const selected = this.books.find(book => book.isbn === id);
     this.basket.push(new Book(selected));
@@ -95,6 +92,8 @@ decorate(BookStore, {
   basket: observable,
   offers: observable,
   totalOrder: observable,
+  filter: observable,
+  filteredBook: computed,
   addBook: action
 });
 

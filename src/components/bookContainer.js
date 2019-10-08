@@ -9,7 +9,11 @@ const BookContainer = ({ store }) => {
 
   return (
     <div>
-      <ListBook books={store.books} handleBuy={store.addBook} />
+      <ListBook 
+        books={store.filteredBook} 
+        handleBuy={store.addBook} 
+        inputFilter={store.filter} 
+        />
     </div>
   );
 };

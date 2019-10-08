@@ -14,16 +14,11 @@ import Button from '@material-ui/core/Button';
 import { inject, observer } from 'mobx-react';
 
 const SimpleDialog = props => {
-  const { store, onClose, selectedValue, open } = props;
+  const { store, onClose, open } = props;
 
   const handleClose = () => {
-    onClose(selectedValue);
+    onClose();
   };
-
-  const handleListItemClick = value => {
-    onClose(value);
-  };
-
   return (
     <Dialog
       onClose={handleClose}
@@ -36,7 +31,6 @@ const SimpleDialog = props => {
           return (
             <ListItem
               button
-              onClick={() => handleListItemClick(book)}
               key={book.id}
             >
               <ListItemAvatar>
@@ -69,10 +63,10 @@ const SimpleDialog = props => {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleListItemClick} color="primary">
+          <Button onClick={handleClose} color="primary">
             Annuler
           </Button>
-          <Button onClick={handleListItemClick} color="primary">
+          <Button onClick={handleClose} color="primary">
             Confirmer
           </Button>
         </DialogActions>

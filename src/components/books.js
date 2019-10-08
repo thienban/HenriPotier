@@ -9,6 +9,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles({
   card: {
@@ -25,13 +26,29 @@ const useStyles = makeStyles({
   }
 });
 
-const ListBook = ({ books, handleBuy }) => {
+const ListBook = ({ books, handleBuy, inputFilter }) => {
   const classes = useStyles();
   const handleClick = e => {
     handleBuy(e.currentTarget.id);
   };
+  const filter = e => {
+    inputFilter= e.target.value;
+  };
   return (
     <div style={{ marginTop: 20, padding: 30 }}>
+      <TextField
+        id="standard-full-width"
+        label="Livre à chercher"
+        style={{ margin: 8 }}
+        placeholder="Recherche"
+        fullWidth
+        margin="normal"
+        InputLabelProps={{
+          shrink: true
+        }}
+        value={inputFilter}
+        onChange={filter}
+      />
       <Grid container spacing={5} justify="center">
         {books.map(book => {
           return (
@@ -58,7 +75,7 @@ const ListBook = ({ books, handleBuy }) => {
                     size="small"
                     color="primary"
                     id={book.isbn}
-                    onClick={(e) => handleClick(e)}
+                    onClick={e => handleClick(e)}
                   >
                     ACHETER
                   </Button>
