@@ -50,15 +50,22 @@ const SimpleDialog = props => {
           );
         })}
         <DialogContent>
-          {store.offers.length > 0 && (
-            <DialogContentText color="error">
-              {'Promotion: ' + store.offers[0].value + ' %'}
-            </DialogContentText>
-          )}
           {store.basket.length > 0 && (
             <DialogContentText color="primary">
               {'Total: ' + store.totalOrder}
             </DialogContentText>
+          )}
+          {store.offers.length > 0 && (
+            <div>
+              <DialogContentText color="error">
+                {'Promotion: ' + store.offers[0].value + ' %'}
+              </DialogContentText>
+              <DialogContentText color="error">
+                {'Prix Final: ' +
+                  store.totalOrder * (1 - 0.01 * store.offers[0].value) +
+                  ' %'}
+              </DialogContentText>
+            </div>
           )}
         </DialogContent>
         <DialogActions>
