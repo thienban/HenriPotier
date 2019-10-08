@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -8,21 +7,13 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
-import { blue } from '@material-ui/core/colors';
 import { inject, observer } from 'mobx-react';
 
-const emails = ['username@gmail.com', 'user02@gmail.com'];
-const useStyles = makeStyles({
-  avatar: {
-    backgroundColor: blue[100],
-    color: blue[600]
-  }
-});
-
 const SimpleDialog = props => {
-  const classes = useStyles();
   const { store, onClose, selectedValue, open } = props;
 
   const handleClose = () => {
@@ -49,12 +40,27 @@ const SimpleDialog = props => {
               key={book.id}
             >
               <ListItemAvatar>
-                <Avatar className={classes.avatar} src={book.cover} />
+                <Avatar src={book.cover} />
               </ListItemAvatar>
-              <ListItemText primary={book.title} secondary={book.price+' €'} />
+              <ListItemText
+                primary={book.title}
+                secondary={book.price + ' €'}
+              />
             </ListItem>
           );
         })}
+        <DialogContent>
+          {store.offers.length > 0 && (
+            <DialogContentText color="error">
+              {'Promotion: ' + store.offers[0].value + ' %'}
+            </DialogContentText>
+          )}
+          {store.basket.length > 0 && (
+            <DialogContentText color="primary">
+              {'Total: ' + store.totalOrder}
+            </DialogContentText>
+          )}
+        </DialogContent>
         <DialogActions>
           <Button onClick={handleListItemClick} color="primary">
             Annuler

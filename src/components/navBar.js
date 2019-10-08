@@ -13,6 +13,9 @@ const NavBar = ({ store }) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
+    if(store.basket.length > 0) {
+      store.fetchOffers();
+    }
     setOpen(true);
   };
   const handleClose = () => {
