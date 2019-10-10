@@ -29,10 +29,7 @@ const SimpleDialog = props => {
       <List>
         {store.basket.map(book => {
           return (
-            <ListItem
-              button
-              key={book.id}
-            >
+            <ListItem button key={book.id}>
               <ListItemAvatar>
                 <Avatar src={book.cover} />
               </ListItemAvatar>
@@ -46,18 +43,16 @@ const SimpleDialog = props => {
         <DialogContent>
           {store.basket.length > 0 && (
             <DialogContentText color="primary">
-              {'Total: ' + store.totalOrder}
+              {'Total: ' + store.totalOrder + ' €'}
             </DialogContentText>
           )}
           {store.offers.length > 0 && (
             <div>
               <DialogContentText color="error">
-                {'Promotion: ' + store.offers[0].value + ' %'}
+                {'Promotion: ' + store.bestOffer + ' €'}
               </DialogContentText>
               <DialogContentText color="error">
-                {'Prix Final: ' +
-                  store.totalOrder * (1 - 0.01 * store.offers[0].value) +
-                  ' %'}
+                {'Prix Final: ' + (store.totalOrder - store.bestOffer) + ' €'}
               </DialogContentText>
             </div>
           )}

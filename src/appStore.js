@@ -17,21 +17,6 @@ decorate(Book, {
   synosis: observable
 });
 
-class Order {
-  constructor(price, quantity) {
-    this.price = price;
-    this.quantity = quantity;
-  }
-
-  get total() {
-    return this.price * this.quantity;
-  }
-}
-decorate(Order, {
-  price: observable,
-  quantity: observable
-});
-
 class BookStore {
   constructor() {
     this.books = [];
@@ -82,6 +67,30 @@ class BookStore {
       book => !this.filter || matchesFilter.test(book.title)
     );
   }
+  get bestOffer() {
+    let percentage, minus, slice;
+    this.offers.forEach(offer => {
+      if (offer.type && offer.type === 'percentage') {
+        percentage = this.totalOrder * 0.01 * offer.value;
+      }
+      if (offer.type && offer.type === 'minus') {
+        minus = offer.value;
+      }
+      if (offer.type && offer.type === 'slice') {
+        let num = tranche(this.totalOrder, offer.sliceValue);
+        slice = num * offer.value;
+      }
+    });
+    let max;
+    if (percentage && minus && minus) {
+      max = Math.max(percentage, minus, slice);
+    } else if (percentage && minus) {
+      max = Math.max(percentage, minus);
+    } else {
+      max = percentage;
+    }
+    return max;
+  }
   modifyFilter(val) {
     this.filter = val;
   }
@@ -99,8 +108,14 @@ decorate(BookStore, {
   totalOrder: observable,
   filter: observable,
   filteredBook: computed,
+  bestOffer: computed,
   modifyFilter: action,
   addBook: action
 });
+
+const tranche = (price, slice) => {
+  let reste = Math.floor(price / slice);
+  return reste;
+};
 
 export default new BookStore();
