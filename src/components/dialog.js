@@ -19,6 +19,10 @@ const SimpleDialog = props => {
   const handleClose = () => {
     onClose();
   };
+  const handleEmpty = () => {
+    store.emptyCart();
+    onClose();
+  };
   return (
     <Dialog
       onClose={handleClose}
@@ -58,8 +62,8 @@ const SimpleDialog = props => {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Annuler
+          <Button onClick={handleEmpty} color="primary">
+            Vider
           </Button>
           <Button onClick={handleClose} color="primary">
             Confirmer

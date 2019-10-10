@@ -1,4 +1,10 @@
 import { observable, flow, decorate, action, computed } from 'mobx';
+
+const tranche = (price, slice) => {
+  let reste = Math.floor(price / slice);
+  return reste;
+};
+
 class Book {
   constructor(obj) {
     this.id = obj.isbn;
@@ -89,7 +95,7 @@ class BookStore {
     } else {
       max = percentage;
     }
-    return max;
+    return Math.floor(max);
   }
   modifyFilter(val) {
     this.filter = val;
@@ -98,6 +104,9 @@ class BookStore {
     const selected = this.books.find(book => book.isbn === id);
     this.basket.push(new Book(selected));
     this.totalOrder += selected.price;
+  }
+  emptyCart() {
+    this.basket.clear();
   }
 }
 decorate(BookStore, {
@@ -110,12 +119,8 @@ decorate(BookStore, {
   filteredBook: computed,
   bestOffer: computed,
   modifyFilter: action,
-  addBook: action
+  addBook: action,
+  emptyCart: action
 });
-
-const tranche = (price, slice) => {
-  let reste = Math.floor(price / slice);
-  return reste;
-};
 
 export default new BookStore();
