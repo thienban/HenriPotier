@@ -1,9 +1,6 @@
 import { observable, flow, decorate, action, computed } from 'mobx';
+import {slice} from './utils/utils';
 
-const tranche = (price, slice) => {
-  let reste = Math.floor(price / slice);
-  return reste;
-};
 
 class Book {
   constructor(obj) {
@@ -83,7 +80,7 @@ class BookStore {
         minus = offer.value;
       }
       if (offer.type && offer.type === 'slice') {
-        let num = tranche(this.totalOrder, offer.sliceValue);
+        let num = slice(this.totalOrder, offer.sliceValue);
         slice = num * offer.value;
       }
     });
