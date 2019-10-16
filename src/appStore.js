@@ -1,6 +1,5 @@
 import { observable, flow, decorate, action, computed } from 'mobx';
-import {slice} from './utils/utils';
-
+import { getPriceWithType } from './utils/utils';
 
 class Book {
   constructor(obj) {
@@ -71,28 +70,10 @@ class BookStore {
     );
   }
   get bestOffer() {
-    let percentage, minus, slice;
-    this.offers.forEach(offer => {
-      if (offer.type && offer.type === 'percentage') {
-        percentage = this.totalOrder * 0.01 * offer.value;
-      }
-      if (offer.type && offer.type === 'minus') {
-        minus = offer.value;
-      }
-      if (offer.type && offer.type === 'slice') {
-        let num = slice(this.totalOrder, offer.sliceValue);
-        slice = num * offer.value;
-      }
-    });
-    let max;
-    if (percentage && minus && minus) {
-      max = Math.max(percentage, minus, slice);
-    } else if (percentage && minus) {
-      max = Math.max(percentage, minus);
-    } else {
-      max = percentage;
-    }
-    return Math.floor(max);
+    let offers = this.offers.map(offer =>
+      getPriceWithType(this.totalOrder, offer)
+    );
+    return Math.floor(Math.max(...offers));
   }
   modifyFilter(val) {
     this.filter = val;
@@ -104,6 +85,7 @@ class BookStore {
   }
   emptyCart() {
     this.basket.clear();
+    this.totalOrder = 0;
   }
 }
 decorate(BookStore, {
