@@ -8,7 +8,7 @@ import Message from '../components/message';
 
 const BookContainer = ({ store }) => {
   useEffect(() => {
-    store.fetchBooks();
+    store.getBooks();
   }, []);
   const isLoadingConditionFn = props => props.state === 'loading';
   const nullConditionFn = props => !props.books;

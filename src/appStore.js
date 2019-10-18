@@ -1,4 +1,11 @@
-import { observable, flow, decorate, action, computed } from 'mobx';
+import {
+  observable,
+  flow,
+  decorate,
+  action,
+  computed,
+  runInAction
+} from 'mobx';
 import { getPriceWithType } from './utils/utils';
 
 class Book {
@@ -18,31 +25,23 @@ decorate(Book, {
   cover: observable,
   synosis: observable
 });
-
-class BookStore {
+class BookApi {
   constructor() {
-    this.books = [];
     this.state = 'loading';
-    this.basket = [];
-    this.offers = [];
-    this.totalOrder = 0;
-    this.filter = '';
 
     this.fetchBooks = flow(function*() {
-      this.books = [];
       this.state = 'pending';
       try {
         const response = yield fetch('http://henri-potier.xebia.fr/books');
         const json = yield response.json();
         this.state = 'done';
-        this.books = json;
+        return json;
       } catch (error) {
         this.state = 'error';
       }
     });
 
     this.fetchOffers = flow(function*() {
-      this.offers = [];
       this.state = 'pending';
       const allId = this.basket.map(book => {
         return book.id;
@@ -59,10 +58,28 @@ class BookStore {
         this.state = 'error';
       }
     });
-
+  }
+}
+class BookStore {
+  constructor(api) {
+    this.books = [];
+    this.basket = [];
+    this.offers = [];
+    this.totalOrder = 0;
+    this.filter = '';
+    this.bookApi = api;
     this.addBook = this.addBook.bind(this);
     this.modifyFilter = this.modifyFilter.bind(this);
+
+    this.getBooks = async () => {
+      const books = await api.fetchBooks();
+
+      runInAction(() => {
+        this.books = books;
+      });
+    };
   }
+
   get filteredBook() {
     const matchesFilter = new RegExp(this.filter, 'i');
     return this.books.filter(
@@ -97,9 +114,11 @@ decorate(BookStore, {
   filter: observable,
   filteredBook: computed,
   bestOffer: computed,
+  getBooks: action,
   modifyFilter: action,
   addBook: action,
   emptyCart: action
 });
 
-export default new BookStore();
+const api = new BookApi();
+export default new BookStore(api);
